@@ -1,6 +1,7 @@
 import { useState } from 'react'
 // import axios from 'axios' // Uncomment when ready to use real API
 import './App.css'
+import { processClaim } from './api'
 
 interface MenuItem {
   id: string
@@ -36,8 +37,13 @@ interface Claim {
   incidentLocation: string
   description: string
   damageAmount: number
+  summary: string
   status: 'Pending' | 'Under Review' | 'Approved' | 'Rejected'
-  submittedAt: string
+  submittedAt: string,
+  extract_claim_fields: string,
+  validate_claim: string,
+  fraud_check: string,
+  summarize_claim: string,
 }
 
 interface ClaimIntakeJourney {
@@ -97,78 +103,70 @@ const HARDCODED_EMPLOYEES: Employee[] = [
 // Hardcoded claims data
 const HARDCODED_CLAIMS: Claim[] = [
   {
-    id: 'CLM001',
+    id: '1',
     userId: '1',
     claimType: 'Auto Accident',
     incidentDate: '2026-01-10',
     incidentLocation: 'New York, NY',
     description: 'Car collision on highway',
     damageAmount: 5000,
+    summary: 'Can be processed. Claim has clear incident details and consistent timeline with verified police report on file.',
     status: 'Under Review',
-    submittedAt: '2026-01-11T10:30:00Z'
+    submittedAt: '2026-01-11T10:30:00Z',
+    extract_claim_fields: "2026-01-15T22:03:56.819Z",
+    validate_claim: "2026-01-15T22:04:26.419Z",
+    fraud_check: "2026-01-15T22:05:18.450Z",
+    summarize_claim: "2026-01-15T22:05:49.560Z",
   },
   {
-    id: 'CLM002',
+    id: '2',
     userId: '2',
     claimType: 'Property Damage',
     incidentDate: '2026-01-08',
     incidentLocation: 'Los Angeles, CA',
     description: 'Water damage to home',
     damageAmount: 12000,
+    summary: 'Cannot be processed. Suspicious discrepancies found between claim amount and damage assessment; multiple inconsistencies in timeline.',
     status: 'Pending',
-    submittedAt: '2026-01-09T14:15:00Z'
+    submittedAt: '2026-01-09T14:15:00Z',
+    extract_claim_fields: "2026-01-15T22:03:56.819Z",
+    validate_claim: "2026-01-15T22:04:26.419Z",
+    fraud_check: "2026-01-15T22:05:18.450Z",
+    summarize_claim: "2026-01-15T22:05:49.560Z",
   },
   {
-    id: 'CLM003',
+    id: '3',
     userId: '3',
     claimType: 'Health Claim',
     incidentDate: '2026-01-05',
     incidentLocation: 'Chicago, IL',
     description: 'Emergency room visit',
     damageAmount: 3500,
+    summary: 'Can be processed. Emergency room visit verified with hospital records and valid insurance coverage at time of incident.',
     status: 'Approved',
-    submittedAt: '2026-01-06T09:00:00Z'
+    submittedAt: '2026-01-06T09:00:00Z',
+    extract_claim_fields: "2026-01-15T22:03:56.819Z",
+    validate_claim: "2026-01-15T22:04:26.419Z",
+    fraud_check: "2026-01-15T22:05:18.450Z",
+    summarize_claim: "2026-01-15T22:05:49.560Z",
   },
   {
-    id: 'CLM004',
-    userId: '1',
+    id: '4',
+    userId: '4',
     claimType: 'Property Damage',
     incidentDate: '2026-01-03',
     incidentLocation: 'Boston, MA',
     description: 'Storm damage to roof',
     damageAmount: 8000,
+    summary: 'Can be processed. Weather records confirm storm event on claim date and damage assessment aligns with repair estimates.',
     status: 'Approved',
-    submittedAt: '2026-01-04T11:20:00Z'
+    submittedAt: '2026-01-04T11:20:00Z',
+    extract_claim_fields: "2026-01-15T22:03:56.819Z",
+    validate_claim: "2026-01-15T22:04:26.419Z",
+    fraud_check: "2026-01-15T22:05:18.450Z",
+    summarize_claim: "2026-01-15T22:05:49.560Z",
   }
 ]
-
-// Claim Intake Journey with timestamps
-const CLAIM_INTAKE_JOURNEYS: Record<string, ClaimIntakeJourney> = {
-  'CLM001': {
-    extractData: '2026-01-11T10:30:00Z',
-    dataValidation: '2026-01-11T10:35:15Z',
-    fraudDetection: '2026-01-11T10:45:30Z',
-    dataSummary: '2026-01-11T11:00:00Z'
-  },
-  'CLM002': {
-    extractData: '2026-01-09T14:15:00Z',
-    dataValidation: '2026-01-09T14:22:45Z',
-    fraudDetection: '2026-01-09T14:35:00Z',
-    dataSummary: '2026-01-09T14:50:30Z'
-  },
-  'CLM003': {
-    extractData: '2026-01-06T09:00:00Z',
-    dataValidation: '2026-01-06T09:08:20Z',
-    fraudDetection: '2026-01-06T09:20:10Z',
-    dataSummary: '2026-01-06T09:35:00Z'
-  },
-  'CLM004': {
-    extractData: '2026-01-04T11:20:00Z',
-    dataValidation: '2026-01-04T11:28:15Z',
-    fraudDetection: '2026-01-04T11:42:00Z',
-    dataSummary: '2026-01-04T12:00:00Z'
-  }
-}
 
 const menuItems: MenuItem[] = [
   // Main Services
@@ -243,6 +241,8 @@ function App() {
     description: '',
     damageAmount: '',
     agreeTerms: false,
+    name: '',
+    id: ''
   })
   const [claimFormError, setClaimFormError] = useState('')
   const [claimSubmitSuccess, setClaimSubmitSuccess] = useState(false)
@@ -331,8 +331,14 @@ function App() {
       description: '',
       damageAmount: '',
       agreeTerms: false,
+      name:'',
+      id:''
     })
     setIsClaimIntakeModalOpen(true)
+  }
+
+  const convertClaimDataToSentence = (data: typeof claimFormData, user: any) => {
+    return `Name is ${user.firstName} ${user.lastName}, claim type is ${data.claimType}, incident date is ${data.incidentDate}, incident location is ${data.incidentLocation}, damage amount is $${data.damageAmount}, description is ${data.description}.`
   }
 
   const handleSubmitClaim = () => {
@@ -363,24 +369,13 @@ function App() {
       return
     }
 
-    // Prepare claim data in JSON format (ready for API integration)
-    // const claimData = {
-    //   userId: loggedInUser?.id,
-    //   firstName: loggedInUser?.firstName,
-    //   lastName: loggedInUser?.lastName,
-    //   claimType: claimFormData.claimType,
-    //   incidentDate: claimFormData.incidentDate,
-    //   incidentLocation: claimFormData.incidentLocation,
-    //   description: claimFormData.description,
-    //   damageAmount: parseFloat(claimFormData.damageAmount),
-    //   termsAccepted: claimFormData.agreeTerms,
-    //   submittedAt: new Date().toISOString()
-    // }
-
     // Make POST API call
     setClaimSubmitting(true)
-    // axios.post('https://api.example.com/claims/intake', claimData)
-    Promise.resolve({ status: 202 }) // Mocked API response
+    const claimSentence = convertClaimDataToSentence(claimFormData, loggedInUser)
+    claimFormData.name = loggedInUser?.firstName + ' ' + loggedInUser?.lastName;
+    claimFormData.id = loggedInUser?.id || "";
+    processClaim(claimSentence, claimFormData)
+    // Promise.resolve({ status: 202 }) // Mocked API response
       .then((response) => {
         if (response.status === 202) {
           setClaimSubmitSuccess(true)
@@ -396,6 +391,8 @@ function App() {
               description: '',
               damageAmount: '',
               agreeTerms: false,
+              name:'',
+              id: ''
             })
           }, 3000)
         }
@@ -585,9 +582,9 @@ function App() {
                       <span className="label">Description:</span>
                       <p className="value description">{selectedClaimForReview.description}</p>
                     </div>
-                    <div className="detail-row">
-                      <span className="label">Submitted:</span>
-                      <span className="value">{new Date(selectedClaimForReview.submittedAt).toLocaleString()}</span>
+                    <div className="detail-row full-width">
+                      <span className="label">Summary:</span>
+                      <p className="value description">{selectedClaimForReview.summary}</p>
                     </div>
                   </div>
                   <div className="claim-actions">
@@ -742,40 +739,45 @@ function App() {
               <button className="modal-close" onClick={() => setShowIntakeJourneyModal(false)}>×</button>
             </div>
             <div className="modal-body journey-modal-body">
-              {CLAIM_INTAKE_JOURNEYS[selectedClaimForReview.id] && (
+              {selectedClaimForReview && (
                 <div className="journey-graph-grid">
                   <div className="journey-nodes-grid">
+                    { selectedClaimForReview.extract_claim_fields && (
                     <div className="journey-node node-1">
                       <div className="node-circle-small"></div>
                       <div className="node-label">Extract Data</div>
                       <div className="node-timestamp">
-                        {new Date(CLAIM_INTAKE_JOURNEYS[selectedClaimForReview.id].extractData).toLocaleTimeString()}
+                        {selectedClaimForReview.extract_claim_fields}
                       </div>
                     </div>
-
+                    )}
+                    { selectedClaimForReview.validate_claim && (
                     <div className="journey-node node-2">
                       <div className="node-circle-small"></div>
                       <div className="node-label">Data Validation</div>
                       <div className="node-timestamp">
-                        {new Date(CLAIM_INTAKE_JOURNEYS[selectedClaimForReview.id].dataValidation).toLocaleTimeString()}
+                        {selectedClaimForReview.validate_claim}
                       </div>
                     </div>
-
+ )}
+                    { selectedClaimForReview.fraud_check && (
                     <div className="journey-node node-3">
                       <div className="node-circle-small"></div>
                       <div className="node-label">Fraud Screening</div>
                       <div className="node-timestamp">
-                        {new Date(CLAIM_INTAKE_JOURNEYS[selectedClaimForReview.id].fraudDetection).toLocaleTimeString()}
+                        {selectedClaimForReview.fraud_check}
                       </div>
                     </div>
-
+ )}
+                    { selectedClaimForReview.summarize_claim && (
                     <div className="journey-node node-4">
                       <div className="node-circle-small"></div>
                       <div className="node-label">Data Summary</div>
                       <div className="node-timestamp">
-                        {new Date(CLAIM_INTAKE_JOURNEYS[selectedClaimForReview.id].dataSummary).toLocaleTimeString()}
+                        {selectedClaimForReview.summarize_claim}
                       </div>
                     </div>
+                    )}
                   </div>
                 </div>
               )}
