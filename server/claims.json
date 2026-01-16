@@ -1,0 +1,124 @@
+[
+  {
+    "claims": [
+      {
+        "policy_number": "123456789",
+        "claim_number": "CLM-2025-001",
+        "date_of_incident": "2025-11-30",
+        "claimant_name": "John Doe",
+        "claimant_contact": "john.doe@example.com | +91-9876543210",
+        "address": "123, Elm Street, Mumbai, India",
+        "type_of_claim": "Vehicle Damage",
+        "vehicle_make_model": "Toyota Corolla 2020",
+        "vehicle_registration_number": "MH01AB1234",
+        "date_of_accident": "2025-11-29",
+        "location_of_accident": "Mumbai, India",
+        "description_of_incident": "The insured vehicle was involved in a minor collision with another car at a traffic signal. Damages include front bumper and left headlight.",
+        "estimated_loss_amount": "INR 75,000",
+        "supporting_documents_submitted": [
+          "Police Report.pdf",
+          "Photos of Damage.zip",
+          "Repair Estimate.pdf"
+        ],
+        "declaration_date": "2025-12-03"
+      },
+      {
+        "policy_number": "555666777",
+        "claim_number": "CLM-2025-003",
+        "date_of_incident": "2025-11-25",
+        "claimant_name": "Raj Patel",
+        "claimant_contact": "raj.patel@example.com | +91-9988776655",
+        "address": "78, Oak Street, Bangalore, India",
+        "type_of_claim": "Theft",
+        "date_of_theft": "2025-11-24",
+        "location": "Bangalore, India",
+        "description_of_incident": "Bicycle and laptop stolen from the garage during the night. Police report filed on 2025-11-25.",
+        "estimated_loss_amount": "INR 45,000",
+        "supporting_documents_submitted": [
+          "Police Report.pdf",
+          "CCTV Footage.zip"
+        ],
+        "declaration_date": "2025-11-26"
+      }
+    ]
+  },
+  {
+    "claimant_name": "John Doe",
+    "claim_type": "Theft",
+    "incident_date": "1/1/2025",
+    "description": "Vehicle Stolen",
+    "vehicle_type": "Car",
+    "date_of_birth": "1/1/1990",
+    "place_of_birth": "New York",
+    "vehicle_plate": "AD546J",
+    "car_color": null
+  },
+  {
+    "claimant_name": "John Doe",
+    "claim_type": "Theft",
+    "incident_date": "1/1/2025",
+    "description": "Vehicle Got Stolen",
+    "vehicle_type": "Car",
+    "date_of_birth": "1/1/1990",
+    "place_of_birth": "New York",
+    "vehicle_plate": "AD546J",
+    "car_color": null,
+    "valid": false,
+    "suspicious": false,
+    "summary": "John Doe (DOB: 1/1/1990) filed a theft claim on 1/1/2025 for his car with license plate AD546J, which was stolen in New York."
+  },
+  {
+    "claimant_name": "John Doe",
+    "claim_type": "Theft",
+    "incident_date": "1/1/2025",
+    "description": "Vehicle Stolen",
+    "vehicle_type": "Car",
+    "date_of_birth": "1/1/1990",
+    "place_of_birth": "New York",
+    "vehicle_plate": "AD546J",
+    "car_color": null,
+    "valid": false,
+    "missing": [
+      "car_color"
+    ],
+    "suspicious": false,
+    "reason": "No issues",
+    "summary": "John Doe reported a theft claim for his car with license plate AD546J, stating it was stolen on January 1st, 2025. He was born on January 1st, 1990, in New York."
+  },
+  {
+    "claimant_name": "John Doe",
+    "claim_type": "Theft",
+    "incident_date": "1/1/2025",
+    "description": "Vehicle Got Stolen",
+    "vehicle_type": "Car",
+    "date_of_birth": "1/1/1990",
+    "place_of_birth": "New York",
+    "vehicle_plate": "AD546J",
+    "car_color": null,
+    "valid": false,
+    "missing": [
+      "car_color"
+    ],
+    "suspicious": false,
+    "reason": "No issues",
+    "summary": "John Doe reported a car theft that occurred on January 1, 2025; the stolen vehicle's license plate is AD546J."
+  },
+  {
+    "claimant_name": "John Doe",
+    "claim_type": "Theft",
+    "incident_date": "1/1/2025",
+    "description": "Vehicle Got Stolen",
+    "vehicle_type": "Car",
+    "date_of_birth": "1/1/1990",
+    "place_of_birth": "New York",
+    "vehicle_plate": "AD546J",
+    "car_color": null,
+    "valid": false,
+    "missing": [
+      "car_color"
+    ],
+    "suspicious": false,
+    "reason": "No issues",
+    "summary": "John Doe claims his car, license plate AD546J, was stolen on January 1, 2025. The claimant was born on January 1, 1990, in New York."
+  }
+]
