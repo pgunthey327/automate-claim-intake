@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 // import axios from 'axios' // Uncomment when ready to use real API
 import './App.css'
-import { processClaim } from './api'
+import { processClaim, getClaimsData } from './api'
 
 interface MenuItem {
   id: string
@@ -31,27 +31,21 @@ interface Employee {
 
 interface Claim {
   id: string
+  claimId: string
   userId: string
+  name: string
   claimType: string
   incidentDate: string
   incidentLocation: string
   description: string
-  damageAmount: number
+  damageAmount: string
   summary: string
-  status: 'Pending' | 'Under Review' | 'Approved' | 'Rejected'
-  submittedAt: string,
-  extract_claim_fields: string,
-  validate_claim: string,
-  fraud_check: string,
-  summarize_claim: string,
+  extract_claim_fields: string
+  validate_claim: string
+  fraud_check: string
+  summarize_claim: string
 }
 
-interface ClaimIntakeJourney {
-  extractData: string
-  dataValidation: string
-  fraudDetection: string
-  dataSummary: string
-}
 
 // Hardcoded user data
 const HARDCODED_USERS: User[] = [
@@ -100,73 +94,79 @@ const HARDCODED_EMPLOYEES: Employee[] = [
   }
 ]
 
-// Hardcoded claims data
-const HARDCODED_CLAIMS: Claim[] = [
-  {
-    id: '1',
-    userId: '1',
-    claimType: 'Auto Accident',
-    incidentDate: '2026-01-10',
-    incidentLocation: 'New York, NY',
-    description: 'Car collision on highway',
-    damageAmount: 5000,
-    summary: 'Can be processed. Claim has clear incident details and consistent timeline with verified police report on file.',
-    status: 'Under Review',
-    submittedAt: '2026-01-11T10:30:00Z',
-    extract_claim_fields: "2026-01-15T22:03:56.819Z",
-    validate_claim: "2026-01-15T22:04:26.419Z",
-    fraud_check: "2026-01-15T22:05:18.450Z",
-    summarize_claim: "2026-01-15T22:05:49.560Z",
-  },
-  {
-    id: '2',
-    userId: '2',
-    claimType: 'Property Damage',
-    incidentDate: '2026-01-08',
-    incidentLocation: 'Los Angeles, CA',
-    description: 'Water damage to home',
-    damageAmount: 12000,
-    summary: 'Cannot be processed. Suspicious discrepancies found between claim amount and damage assessment; multiple inconsistencies in timeline.',
-    status: 'Pending',
-    submittedAt: '2026-01-09T14:15:00Z',
-    extract_claim_fields: "2026-01-15T22:03:56.819Z",
-    validate_claim: "2026-01-15T22:04:26.419Z",
-    fraud_check: "2026-01-15T22:05:18.450Z",
-    summarize_claim: "2026-01-15T22:05:49.560Z",
-  },
-  {
-    id: '3',
-    userId: '3',
-    claimType: 'Health Claim',
-    incidentDate: '2026-01-05',
-    incidentLocation: 'Chicago, IL',
-    description: 'Emergency room visit',
-    damageAmount: 3500,
-    summary: 'Can be processed. Emergency room visit verified with hospital records and valid insurance coverage at time of incident.',
-    status: 'Approved',
-    submittedAt: '2026-01-06T09:00:00Z',
-    extract_claim_fields: "2026-01-15T22:03:56.819Z",
-    validate_claim: "2026-01-15T22:04:26.419Z",
-    fraud_check: "2026-01-15T22:05:18.450Z",
-    summarize_claim: "2026-01-15T22:05:49.560Z",
-  },
-  {
-    id: '4',
-    userId: '4',
-    claimType: 'Property Damage',
-    incidentDate: '2026-01-03',
-    incidentLocation: 'Boston, MA',
-    description: 'Storm damage to roof',
-    damageAmount: 8000,
-    summary: 'Can be processed. Weather records confirm storm event on claim date and damage assessment aligns with repair estimates.',
-    status: 'Approved',
-    submittedAt: '2026-01-04T11:20:00Z',
-    extract_claim_fields: "2026-01-15T22:03:56.819Z",
-    validate_claim: "2026-01-15T22:04:26.419Z",
-    fraud_check: "2026-01-15T22:05:18.450Z",
-    summarize_claim: "2026-01-15T22:05:49.560Z",
-  }
-]
+// Hardcoded claims data - organized by user ID
+const HARDCODED_CLAIMS: Record<string, Claim[]> = {
+  '1': [
+    {
+      id: '1',
+      claimId: 'CLM001',
+      userId: '1',
+      name: 'Prathmesh Gunthey',
+      claimType: 'Auto Accident',
+      incidentDate: '2026-01-10',
+      incidentLocation: 'New York, NY',
+      description: 'Car collision on highway',
+      damageAmount: '5000',
+      summary: 'Can be processed. Claim has clear incident details and consistent timeline with verified police report on file.',
+      extract_claim_fields: '2026-01-15T22:03:56.819Z',
+      validate_claim: '2026-01-15T22:04:26.419Z',
+      fraud_check: '2026-01-15T22:05:18.450Z',
+      summarize_claim: '2026-01-15T22:05:49.560Z',
+    },
+    {
+      id: '1',
+      claimId: 'CLM002',
+      userId: '1',
+      name: 'Prathmesh Gunthey',
+      claimType: 'Property Damage',
+      incidentDate: '2026-01-03',
+      incidentLocation: 'Boston, MA',
+      description: 'Storm damage to roof',
+      damageAmount: '8000',
+      summary: 'Can be processed. Weather records confirm storm event on claim date and damage assessment aligns with repair estimates.',
+      extract_claim_fields: '2026-01-04T11:20:00Z',
+      validate_claim: '2026-01-04T11:28:15Z',
+      fraud_check: '2026-01-04T11:42:00Z',
+      summarize_claim: '2026-01-04T12:00:00Z',
+    }
+  ],
+  '2': [
+    {
+      id: '2',
+      claimId: 'CLM001',
+      userId: '2',
+      name: 'John Doe',
+      claimType: 'Property Damage',
+      incidentDate: '2026-01-08',
+      incidentLocation: 'Los Angeles, CA',
+      description: 'Water damage to home',
+      damageAmount: '12000',
+      summary: 'Cannot be processed. Suspicious discrepancies found between claim amount and damage assessment; multiple inconsistencies in timeline.',
+      extract_claim_fields: '2026-01-09T14:15:00Z',
+      validate_claim: '2026-01-09T14:22:45Z',
+      fraud_check: '2026-01-09T14:35:00Z',
+      summarize_claim: '2026-01-09T14:50:30Z',
+    }
+  ],
+  '3': [
+    {
+      id: '3',
+      claimId: 'CLM001',
+      userId: '3',
+      name: 'Jane Smith',
+      claimType: 'Health Claim',
+      incidentDate: '2026-01-05',
+      incidentLocation: 'Chicago, IL',
+      description: 'Emergency room visit',
+      damageAmount: '3500',
+      summary: 'Can be processed. Emergency room visit verified with hospital records and valid insurance coverage at time of incident.',
+      extract_claim_fields: '2026-01-06T09:00:00Z',
+      validate_claim: '2026-01-06T09:08:20Z',
+      fraud_check: '2026-01-06T09:20:10Z',
+      summarize_claim: '2026-01-06T09:35:00Z',
+    }
+  ]
+}
 
 const menuItems: MenuItem[] = [
   // Main Services
@@ -248,6 +248,8 @@ function App() {
   const [claimSubmitSuccess, setClaimSubmitSuccess] = useState(false)
   const [claimSubmitting, setClaimSubmitting] = useState(false)
   const [showIntakeJourneyModal, setShowIntakeJourneyModal] = useState(false)
+  const [claimsData, setClaimsData] = useState<Record<string, Claim[]>>(() => JSON.parse(JSON.stringify(HARDCODED_CLAIMS)))
+  const [isLoadingClaims, setIsLoadingClaims] = useState(false)
 
   const claimTypes = [
     'Auto Accident',
@@ -269,6 +271,33 @@ function App() {
     acc[key] = filteredItems.filter(item => item.category === key)
     return acc
   }, {} as Record<string, MenuItem[]>)
+
+  const fetchClaimsData = async () => {
+    setIsLoadingClaims(true)
+    try {
+      const response = await getClaimsData()
+      if (response.ok) {
+        const data = await response.json()
+        // Deep copy to avoid reference issues
+        const newClaimsData = JSON.parse(JSON.stringify(data))
+        setClaimsData(newClaimsData)
+      } else {
+        console.error('Failed to fetch claims data')
+        setClaimsData(JSON.parse(JSON.stringify(HARDCODED_CLAIMS)))
+      }
+    } catch (error) {
+      console.error('Error fetching claims:', error)
+      setClaimsData(JSON.parse(JSON.stringify(HARDCODED_CLAIMS)))
+    } finally {
+      setIsLoadingClaims(false)
+    }
+  }
+
+  useEffect(() => {
+    if (loggedInEmployee) {
+      fetchClaimsData()
+    }
+  }, [loggedInEmployee])
 
   const handleSignIn = () => {
     setSignInError('')
@@ -472,8 +501,28 @@ function App() {
           // Employee Dashboard
           <div className="employee-dashboard">
             <div className="employee-header">
-              <h2>Claims Management Dashboard</h2>
-              <p>Review and manage customer claims</p>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                <div>
+                  <h2>Claims Management Dashboard</h2>
+                  <p>Review and manage customer claims</p>
+                </div>
+                <button 
+                  className="refresh-btn"
+                  onClick={fetchClaimsData}
+                  disabled={isLoadingClaims}
+                  style={{
+                    padding: '8px 16px',
+                    backgroundColor: '#007bff',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: isLoadingClaims ? 'not-allowed' : 'pointer',
+                    opacity: isLoadingClaims ? 0.6 : 1
+                  }}
+                >
+                  {isLoadingClaims ? 'Loading...' : '🔄 Refresh'}
+                </button>
+              </div>
             </div>
 
             <div className="employee-content-grid">
@@ -481,20 +530,30 @@ function App() {
               <div className="users-list-panel">
                 <h3>Customer List</h3>
                 <div className="users-list">
-                  {HARDCODED_USERS.map(user => {
-                    const userClaims = HARDCODED_CLAIMS.filter(c => c.userId === user.id)
+                  {Object.keys(claimsData).map(userId => {
+                    const userClaims = claimsData[userId] || []
+                    const firstClaim = userClaims[0]
+                    const userName = firstClaim?.name || `User ${userId}`
+                    const nameParts = userName.split(' ')
+                    
                     return (
                       <div
-                        key={user.id}
-                        className={`user-card ${selectedUserForReview?.id === user.id ? 'active' : ''}`}
+                        key={userId}
+                        className={`user-card ${selectedUserForReview?.id === userId ? 'active' : ''}`}
                         onClick={() => {
-                          setSelectedUserForReview(user)
+                          setSelectedUserForReview({ 
+                            id: userId, 
+                            firstName: nameParts[0], 
+                            lastName: nameParts[1] || '', 
+                            username: '', 
+                            password: '' 
+                          })
                           setSelectedClaimForReview(null)
                         }}
                       >
                         <div className="user-card-info">
-                          <h4>{user.firstName} {user.lastName}</h4>
-                          <p className="user-id">ID: {user.id}</p>
+                          <h4>{userName}</h4>
+                          <p className="user-id">ID: {userId}</p>
                           <p className="user-claims-count">
                             <span className="claim-badge">{userClaims.length}</span> Claims
                           </p>
@@ -515,23 +574,20 @@ function App() {
                     </div>
 
                     <div className="claims-list">
-                      <h4>Claims</h4>
-                      {HARDCODED_CLAIMS.filter(c => c.userId === selectedUserForReview.id).length > 0 ? (
-                        HARDCODED_CLAIMS.filter(c => c.userId === selectedUserForReview.id).map(claim => (
+                      <h4>Claims ({(claimsData[selectedUserForReview.id] || []).length})</h4>
+                      {(claimsData[selectedUserForReview.id] || []).length > 0 ? (
+                        (claimsData[selectedUserForReview.id] || []).map((claim) => (
                           <div
-                            key={claim.id}
-                            className={`claim-card ${selectedClaimForReview?.id === claim.id ? 'active' : ''}`}
+                            key={claim.claimId}
+                            className={`claim-card ${selectedClaimForReview?.claimId === claim.claimId ? 'active' : ''}`}
                             onClick={() => setSelectedClaimForReview(claim)}
                           >
                             <div className="claim-header">
-                              <span className="claim-id">{claim.id}</span>
-                              <span className={`claim-status status-${claim.status.toLowerCase().replace(' ', '-')}`}>
-                                {claim.status}
-                              </span>
+                              <span className="claim-id">{claim.claimId}</span>
                             </div>
                             <div className="claim-info">
                               <p><strong>Type:</strong> {claim.claimType}</p>
-                              <p><strong>Amount:</strong> ${claim.damageAmount.toLocaleString()}</p>
+                              <p><strong>Amount:</strong> ${parseFloat(claim.damageAmount).toLocaleString()}</p>
                               <p><strong>Date:</strong> {new Date(claim.incidentDate).toLocaleDateString()}</p>
                             </div>
                           </div>
@@ -553,14 +609,19 @@ function App() {
                 <div className="claim-detail-panel">
                   <div className="claim-detail-header">
                     <h4>Claim Details</h4>
-                    <span className={`status-badge status-${selectedClaimForReview.status.toLowerCase().replace(' ', '-')}`}>
-                      {selectedClaimForReview.status}
-                    </span>
                   </div>
                   <div className="claim-detail-content">
                     <div className="detail-row">
                       <span className="label">Claim ID:</span>
+                      <span className="value">{selectedClaimForReview.claimId}</span>
+                    </div>
+                    <div className="detail-row">
+                      <span className="label">User ID:</span>
                       <span className="value">{selectedClaimForReview.id}</span>
+                    </div>
+                    <div className="detail-row">
+                      <span className="label">Claimant Name:</span>
+                      <span className="value">{selectedClaimForReview.name}</span>
                     </div>
                     <div className="detail-row">
                       <span className="label">Claim Type:</span>
@@ -576,7 +637,7 @@ function App() {
                     </div>
                     <div className="detail-row">
                       <span className="label">Damage Amount:</span>
-                      <span className="value amount">${selectedClaimForReview.damageAmount.toLocaleString()}</span>
+                      <span className="value amount">${parseFloat(selectedClaimForReview.damageAmount).toLocaleString()}</span>
                     </div>
                     <div className="detail-row full-width">
                       <span className="label">Description:</span>

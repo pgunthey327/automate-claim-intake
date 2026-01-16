@@ -6,3 +6,10 @@ export function processClaim(text: any, claimFormData: any) {
   });
   return res; 
 }
+
+export function getClaimsData() {
+  return fetch("http://localhost:3001/api/claim-results", {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+}
