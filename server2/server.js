@@ -66,7 +66,7 @@ app.post("/api/process-claim", async (req, res) => {
 // =====================================================================
 app.get("/api/claim-results", (req, res) => {
   try {
-    const resultsPath = path.join(process.cwd(), "output", "claim_results.json");
+     const resultsPath = path.join(process.cwd(), "output", "claim_results.json");
     
     if (!fs.existsSync(resultsPath)) {
       return res.status(404).json({ 
@@ -77,19 +77,9 @@ app.get("/api/claim-results", (req, res) => {
     }
 
     const data = fs.readFileSync(resultsPath, "utf-8");
-    const results = JSON.parse(data);
-    
-    res.status(200).json({
-      success: true,
-      count: Array.isArray(results) ? results.length : 1,
-      results: results
-    });
+    res.status(200).json(JSON.parse(data));
   } catch (err) {
-    console.error("❌ Error retrieving claim results:", err.message);
-    res.status(500).json({ 
-      success: false, 
-      error: err.message 
-    });
+    res.status(500).json({ success: false, error: err.message });
   }
 });
 

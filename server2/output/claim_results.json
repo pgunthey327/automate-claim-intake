@@ -104,54 +104,54 @@
     ]
   },
   {
-    "claimId": "CLAIM-1768763990318",
-    "processedAt": "2026-01-18T19:20:39.725Z",
-    "processingStage": "ROUTING_COMPLETE",
-    "claimStatus": "APPROVE",
-    "decision": {
-      "action": "APPROVE",
-      "queue": "standard_processing/special_review/fraud_investigation/manual_review",
-      "priority": "expedited",
-      "estimatedProcessingTime": "1 day"
-    },
-    "assessment": {
-      "validationPassed": true,
-      "validationScore": 100,
-      "dataEnrichmentQuality": 0.8,
-      "fraudRiskLevel": "LOW",
-      "fraudProbability": 0.3
-    },
-    "routing": {
-      "requiresAdditionalInfo": false,
-      "additionalInfoNeeded": [],
-      "flaggedForReview": false,
-      "flagReason": null
-    },
-    "summary": "Claim is approved with validation passed, no enrichment improvements needed, and low fraud risk.",
-    "reasoning": "ClaimId is validated, no critical errors, and fraud indicators are low. The next action is PASS_VALIDATION, and no additional info is needed. No flags required as the fraud screening is handled manually.",
-    "originalClaimData": {
-      "enhanced claim data object": {
-        "claim": "The product's price is 250 USD.",
-        "source": "Knowledge Base: Competitor Price"
-      },
-      "enrichmentMetadata": {
-        "enrichedAt": "2026-01-18T19:19:12.434Z",
-        "enrichmentSource": "rag",
-        "missingFields": [],
-        "correctedFields": []
-      }
-    },
-    "enrichedData": {
-      "enhanced claim data object": {
-        "claim": "The product's price is 250 USD.",
-        "source": "Knowledge Base: Competitor Price"
-      },
-      "enrichmentMetadata": {
-        "enrichedAt": "2026-01-18T19:19:12.434Z",
-        "enrichmentSource": "rag",
-        "missingFields": [],
-        "correctedFields": []
-      }
-    }
+    "extractionAgent": "2026-01-18T20:03:10.313Z",
+    "validationAgent": "2026-01-18T20:04:14.174Z",
+    "fraudScreeningAgent": "2026-01-18T20:06:04.433Z",
+    "dataEnrichmentAgent": "2026-01-18T20:04:45.410Z",
+    "routingAGent": "2026-01-18T20:07:25.020Z",
+    "claimType": "Auto Accident",
+    "incidentDate": "2026-01-01",
+    "incidentLocation": "Pune",
+    "description": "my car got stolen",
+    "damageAmount": "5000",
+    "agreeTerms": false,
+    "name": "John Doe",
+    "id": "1",
+    "claimId": "CLAIM-1768766794062",
+    "summary": "Claim validated with low fraud risk, no further action needed. | Reasoning: Validation passed with high score. Fraud screening indicates low risk, and no enrichment needed. Recommended action: approve. | Validation: PASSED (Score: 100/100) | Fraud Risk: LOW (Probability: 30.0%) | Fraud Indicators: high transaction frequency, unusual IP geolocation | Fields Added During Enrichment: field, value | Data Quality Improvement: 5% | Final Decision: APPROVE | Assigned Queue: standard_processing | Processing Priority: expedited | Estimated Processing Time: 1"
+  },
+  {
+    "extractionAgent": "2026-01-18T20:46:58.372Z",
+    "validationAgent": "2026-01-18T20:47:36.453Z",
+    "fraudScreeningAgent": "2026-01-18T20:48:58.199Z",
+    "dataEnrichmentAgent": "2026-01-18T20:48:04.505Z",
+    "routingAGent": "2026-01-18T20:50:06.664Z",
+    "claimType": "Auto Accident",
+    "incidentDate": "2026-01-01",
+    "incidentLocation": "Pune",
+    "description": "my car got stolen",
+    "damageAmount": "5000",
+    "agreeTerms": false,
+    "name": "John Doe",
+    "id": "2",
+    "claimId": "CLAIM-1768769362164",
+    "summary": "Claim validated with low fraud risk, proceeding with APPROVE. | Reasoning: Validation passed with high score, fraud indicators low, and no manual review needed. Claim is approved based on current risk assessment. | Validation: PASSED (Score: 100/100) | Fraud Risk: LOW (Probability: 5.0%) | Fraud Indicators: amount, time | Fields Added During Enrichment: location | Data Quality Improvement: 98% | Final Decision: APPROVE | Assigned Queue: standard_processing | Processing Priority: expedited | Estimated Processing Time: 1"
+  },
+  {
+    "extractionAgent": "2026-01-18T21:05:35.506Z",
+    "validationAgent": "2026-01-18T21:06:21.557Z",
+    "fraudScreeningAgent": "2026-01-18T21:08:37.498Z",
+    "dataEnrichmentAgent": "2026-01-18T21:06:55.568Z",
+    "routingAGent": "2026-01-18T21:09:58.220Z",
+    "claimType": "Property Damage",
+    "incidentDate": "2026-01-14",
+    "incidentLocation": "New YorK",
+    "description": "I have my house roof damaged due to storm, need to claim for it",
+    "damageAmount": "498",
+    "agreeTerms": true,
+    "name": "John Doe",
+    "id": "2",
+    "claimId": "CLAIM-1768770546565",
+    "summary": "Claim is approved with a note that requires investigation. | Reasoning: Validation passed with no critical errors. Fraud risk is low, but needs investigation to ensure data integrity. | Validation: PASSED (Score: 100/100) | Fraud Risk: LOW (Probability: 10.0%) | Fraud Indicators: low | Fields Added During Enrichment: field, value | Data Quality Improvement: 0.2 | Final Decision: APPROVE | Assigned Queue: standard_processing/special_review/fraud_investigation | Processing Priority: expedited | Estimated Processing Time: 1 | Additional Information Required: fraudIndicators, needsInvestigation"
   }
 ]

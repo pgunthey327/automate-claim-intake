@@ -5,7 +5,7 @@ import schemaValidatorTool from "../tools/schemaValidatorTool.js";
 import documentClassifier from "../tools/documentClassfier.js";
 import rulesEngine from "../tools/rulesEngine.js";
 import riskCalculator from "../tools/riskCalculator.js";
-import rag from "../agents/rag/rag.js";
+import qualityChecker from "../tools/qualityChecker.js";
 
 class MCPServerManager {
   constructor() {
@@ -131,28 +131,30 @@ class MCPServerManager {
       }
     }, riskCalculator);
 
-    // Register RAG Tool
-    this.mcp.registerTool("rag", {
-      description: "Retrieves relevant information from knowledge base using RAG",
+    // Register Quality Checker Tool
+    this.mcp.registerTool("qualityChecker", {
+      description: "Validates the overall quality and completeness of claim data",
       inputSchema: {
         type: "object",
         properties: {
-          query: {
-            type: "string",
-            description: "The query to search for in knowledge base"
+          claimData: {
+            type: "object",
+            description: "The claim data to validate"
           },
-          documentPath: {
-            type: "string",
-            description: "Path to documents directory"
-          },
-          topK: {
-            type: "number",
-            description: "Number of top results to return"
+          qualityThresholds: {
+            type: "object",
+            description: "Quality thresholds for validation",
+            properties: {
+              minimum: {
+                type: "number",
+                description: "Minimum quality score threshold (0-100)"
+              }
+            }
           }
         },
-        required: ["query"]
+        required: ["claimData"]
       }
-    }, rag);
+    }, qualityChecker);
   }
 
   getRegisteredTools() {

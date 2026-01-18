@@ -18,7 +18,8 @@ const autonomousOrchestrator = async (rawClaimText, claimFormData) => {
 
   const orchestrationLog = {
     startTime: new Date(),
-    stages: {}
+    stages: {},
+    agentTimestamps: {}
   };
 
   try {
@@ -28,7 +29,9 @@ const autonomousOrchestrator = async (rawClaimText, claimFormData) => {
     console.log("\n┌─ STAGE 1: EXTRACTION ─────────────────────────────────────────┐");
     const rawClaimData = claimFormData || JSON.parse(rawClaimText);
     
+    const extractionStartTime = new Date().toISOString();
     const extractionResult = await extractionAgent(rawClaimData);
+    orchestrationLog.agentTimestamps.extractionAgent = extractionStartTime;
     orchestrationLog.stages.extraction = {
       success: extractionResult.result.success,
       duration: "completed",
@@ -55,7 +58,9 @@ const autonomousOrchestrator = async (rawClaimText, claimFormData) => {
     // ====================================================================
     console.log("\n┌─ STAGE 2: VALIDATION ─────────────────────────────────────────┐");
     
+    const validationStartTime = new Date().toISOString();
     const validationResult = await validationAgent(extractedData);
+    orchestrationLog.agentTimestamps.validationAgent = validationStartTime;
     orchestrationLog.stages.validation = {
       success: validationResult.result.success,
       duration: "completed",
@@ -76,7 +81,9 @@ const autonomousOrchestrator = async (rawClaimText, claimFormData) => {
     // ====================================================================
     console.log("\n┌─ STAGE 3: DATA ENRICHMENT ────────────────────────────────────┐");
     
+    const enrichmentStartTime = new Date().toISOString();
     const enrichmentResult = await dataEnrichmentAgent(extractedData, validationData);
+    orchestrationLog.agentTimestamps.dataEnrichmentAgent = enrichmentStartTime;
     orchestrationLog.stages.enrichment = {
       success: enrichmentResult.result.success,
       duration: "completed",
@@ -96,7 +103,9 @@ const autonomousOrchestrator = async (rawClaimText, claimFormData) => {
     // ====================================================================
     console.log("\n┌─ STAGE 4: FRAUD SCREENING ────────────────────────────────────┐");
     
+    const fraudScreeningStartTime = new Date().toISOString();
     const fraudScreeningResult = await fraudScreeningAgent(enrichedData);
+    orchestrationLog.agentTimestamps.fraudScreeningAgent = fraudScreeningStartTime;
     orchestrationLog.stages.fraudScreening = {
       success: fraudScreeningResult.result.success,
       duration: "completed",
@@ -116,12 +125,16 @@ const autonomousOrchestrator = async (rawClaimText, claimFormData) => {
     // ====================================================================
     console.log("\n┌─ STAGE 5: CLAIM ROUTING ──────────────────────────────────────┐");
     
+    const routingStartTime = new Date().toISOString();
     const routingResult = await claimRoutingAgent(
       enrichedData,
       validationResult.result,
       enrichmentResult.result,
-      fraudScreeningResult.result
+      fraudScreeningResult.result,
+      orchestrationLog.agentTimestamps,
+      rawClaimData
     );
+    orchestrationLog.agentTimestamps.routingAGent = routingStartTime;
 
     orchestrationLog.stages.routing = {
       success: routingResult.result.success,
@@ -151,7 +164,6 @@ const autonomousOrchestrator = async (rawClaimText, claimFormData) => {
     console.log("\n╔══════════════════════════════════════════════════════════════╗");
     console.log("║        ORCHESTRATION COMPLETE ✓                             ║");
     console.log(`║        Total Processing Time: ${duration} seconds                      ║`);
-    console.log(`║        Final Status: ${routingResult.result.claimResult.claimStatus.padEnd(40)} ║`);
     console.log("╚══════════════════════════════════════════════════════════════╝\n");
 
   } catch (error) {
