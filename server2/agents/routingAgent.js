@@ -203,27 +203,39 @@ Provide JSON response with:
       }
 
       const resultsFile = path.join(outputDir, "claim_results.json");
-      let allResults = [];
+      let allResults = {};
 
       // Load existing results if file exists
       if (fs.existsSync(resultsFile)) {
         const existingData = fs.readFileSync(resultsFile, "utf-8");
         try {
           allResults = JSON.parse(existingData);
-          if (!Array.isArray(allResults)) {
-            allResults = [allResults];
-          }
         } catch {
-          allResults = [];
+          allResults = {};
         }
       }
-
-      // Add new result
-      allResults.push(claimResult);
-
-      // Save to file
-      fs.writeFileSync(resultsFile, JSON.stringify(allResults, null, 2));
-      console.log(`Claim result saved to ${resultsFile}`);
+        // Check if user already has results
+        const userId = claimData.id;
+        if (allResults[userId]) {
+            // If it's not an array, convert to array
+            if (!Array.isArray(allResults[userId])) {
+            allResults[userId] = [allResults[userId]];
+            }
+            // Generate claim ID based on array length
+            const claimNumber = allResults[userId].length + 1;
+            const claimId = `CLM${String(claimNumber).padStart(3, '0')}`;
+            newResult.claimId = claimId;
+            // Append new result to array
+            allResults[userId].push(newResult);
+        } else {
+            // Create new entry with array containing the result
+            const claimId = "CLM001";
+            newResult.claimId = claimId;
+            allResults[userId] = [newResult];
+        }
+        
+        fs.writeFileSync("claim_results.json", JSON.stringify(allResults, null, 2));
+        console.log("Results saved to claim_results.json");
 
       routingContext.steps.push({
         step: "result_persistence",

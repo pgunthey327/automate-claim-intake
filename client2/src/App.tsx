@@ -40,10 +40,10 @@ interface Claim {
   description: string
   damageAmount: string
   summary: string
-  extract_claim_fields: string
-  validate_claim: string
-  fraud_check: string
-  summarize_claim: string
+  extractionAgent: string
+  validationAgent: string
+  fraudScreeningAgent: string
+  dataEnrichmentAgent: string
 }
 
 
@@ -108,10 +108,10 @@ const HARDCODED_CLAIMS: Record<string, Claim[]> = {
       description: 'Car collision on highway',
       damageAmount: '5000',
       summary: 'Can be processed. Claim has clear incident details and consistent timeline with verified police report on file.',
-      extract_claim_fields: '2026-01-15T22:03:56.819Z',
-      validate_claim: '2026-01-15T22:04:26.419Z',
-      fraud_check: '2026-01-15T22:05:18.450Z',
-      summarize_claim: '2026-01-15T22:05:49.560Z',
+      extractionAgent: '2026-01-15T22:03:56.819Z',
+      validationAgent: '2026-01-15T22:04:26.419Z',
+      fraudScreeningAgent: '2026-01-15T22:05:18.450Z',
+      dataEnrichmentAgent: '2026-01-15T22:05:49.560Z',
     },
     {
       id: '1',
@@ -124,10 +124,10 @@ const HARDCODED_CLAIMS: Record<string, Claim[]> = {
       description: 'Storm damage to roof',
       damageAmount: '8000',
       summary: 'Can be processed. Weather records confirm storm event on claim date and damage assessment aligns with repair estimates.',
-      extract_claim_fields: '2026-01-04T11:20:00Z',
-      validate_claim: '2026-01-04T11:28:15Z',
-      fraud_check: '2026-01-04T11:42:00Z',
-      summarize_claim: '2026-01-04T12:00:00Z',
+      extractionAgent: '2026-01-04T11:20:00Z',
+      validationAgent: '2026-01-04T11:28:15Z',
+      fraudScreeningAgent: '2026-01-04T11:42:00Z',
+      dataEnrichmentAgent: '2026-01-04T12:00:00Z',
     }
   ],
   '2': [
@@ -142,10 +142,10 @@ const HARDCODED_CLAIMS: Record<string, Claim[]> = {
       description: 'Water damage to home',
       damageAmount: '12000',
       summary: 'Cannot be processed. Suspicious discrepancies found between claim amount and damage assessment; multiple inconsistencies in timeline.',
-      extract_claim_fields: '2026-01-09T14:15:00Z',
-      validate_claim: '2026-01-09T14:22:45Z',
-      fraud_check: '2026-01-09T14:35:00Z',
-      summarize_claim: '2026-01-09T14:50:30Z',
+      extractionAgent: '2026-01-09T14:15:00Z',
+      validationAgent: '2026-01-09T14:22:45Z',
+      fraudScreeningAgent: '2026-01-09T14:35:00Z',
+      dataEnrichmentAgent: '2026-01-09T14:50:30Z',
     }
   ],
   '3': [
@@ -160,10 +160,10 @@ const HARDCODED_CLAIMS: Record<string, Claim[]> = {
       description: 'Emergency room visit',
       damageAmount: '3500',
       summary: 'Can be processed. Emergency room visit verified with hospital records and valid insurance coverage at time of incident.',
-      extract_claim_fields: '2026-01-06T09:00:00Z',
-      validate_claim: '2026-01-06T09:08:20Z',
-      fraud_check: '2026-01-06T09:20:10Z',
-      summarize_claim: '2026-01-06T09:35:00Z',
+      extractionAgent: '2026-01-06T09:00:00Z',
+      validationAgent: '2026-01-06T09:08:20Z',
+      fraudScreeningAgent: '2026-01-06T09:20:10Z',
+      dataEnrichmentAgent: '2026-01-06T09:35:00Z',
     }
   ]
 }
@@ -803,39 +803,39 @@ function App() {
               {selectedClaimForReview && (
                 <div className="journey-graph-grid">
                   <div className="journey-nodes-grid">
-                    { selectedClaimForReview.extract_claim_fields && (
+                    { selectedClaimForReview.extractionAgent && (
                     <div className="journey-node node-1">
                       <div className="node-circle-small"></div>
                       <div className="node-label">Extract Data</div>
                       <div className="node-timestamp">
-                        {selectedClaimForReview.extract_claim_fields}
+                        {selectedClaimForReview.extractionAgent}
                       </div>
                     </div>
                     )}
-                    { selectedClaimForReview.validate_claim && (
+                    { selectedClaimForReview.validationAgent && (
                     <div className="journey-node node-2">
                       <div className="node-circle-small"></div>
                       <div className="node-label">Data Validation</div>
                       <div className="node-timestamp">
-                        {selectedClaimForReview.validate_claim}
+                        {selectedClaimForReview.validationAgent}
                       </div>
                     </div>
  )}
-                    { selectedClaimForReview.fraud_check && (
+                    { selectedClaimForReview.fraudScreeningAgent && (
                     <div className="journey-node node-3">
                       <div className="node-circle-small"></div>
                       <div className="node-label">Fraud Screening</div>
                       <div className="node-timestamp">
-                        {selectedClaimForReview.fraud_check}
+                        {selectedClaimForReview.fraudScreeningAgent}
                       </div>
                     </div>
  )}
-                    { selectedClaimForReview.summarize_claim && (
+                    { selectedClaimForReview.dataEnrichmentAgent && (
                     <div className="journey-node node-4">
                       <div className="node-circle-small"></div>
-                      <div className="node-label">Data Summary</div>
+                      <div className="node-label">Data Enrichment</div>
                       <div className="node-timestamp">
-                        {selectedClaimForReview.summarize_claim}
+                        {selectedClaimForReview.dataEnrichmentAgent}
                       </div>
                     </div>
                     )}
