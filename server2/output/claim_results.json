@@ -1,0 +1,157 @@
+[
+  {
+    "1": [
+      {
+        "extractionAgent": "2026-01-15T22:03:56.819Z",
+        "validationAgent": "2026-01-15T22:04:26.419Z",
+        "fraudScreeningAgent": "2026-01-15T22:05:18.450Z",
+        "dataEnrichmentAgent": "2026-01-15T22:05:49.560Z",
+        "routingAGent": "2026-01-15T22:06:49.560Z",
+        "name": "Prathmesh Gunthey",
+        "claimType": "Auto Accident",
+        "incidentDate": "2026-01-01",
+        "incidentLocation": "Pune",
+        "description": "my car got stolen",
+        "damageAmount": "5000",
+        "id": "1",
+        "claimId": "CLM001",
+        "summary": "There is a possibility of fraud due to missing personal information in the provided details. The lack of date of birth and place of birth could make it difficult to verify the claimant's identity. While the claim type and vehicle details are valid, the absence of personal data may be a red flag for potential fraud."
+      },
+      {
+        "extractionAgent": "2026-01-15T22:09:31.235Z",
+        "validationAgent": "2026-01-15T22:09:45.186Z",
+        "fraudScreeningAgent": "2026-01-15T22:10:54.523Z",
+        "dataEnrichmentAgent": "2026-01-15T22:10:13.903Z",
+        "routingAGent": "2026-01-15T22:06:49.560Z",
+        "name": "Prathmesh Gunthey",
+        "claimType": "Auto Accident",
+        "incidentDate": "2026-01-01",
+        "incidentLocation": "Pune",
+        "description": "my car got stolen",
+        "damageAmount": "5000",
+        "id": "1",
+        "claimId": "CLM002",
+        "summary": "There is a possibility of fraud due to missing personal information in the provided details. The lack of date of birth and place of birth could make it difficult to verify the claimant's identity. While the claim type and vehicle details are valid, the absence of personal data may be a red flag for potential fraud."
+      },
+      {
+        "extractionAgent": "2026-01-16T00:29:51.231Z",
+        "validationAgent": "2026-01-16T00:30:14.578Z",
+        "fraudScreeningAgent": "2026-01-16T00:30:55.024Z",
+        "dataEnrichmentAgent": "2026-01-16T00:31:56.706Z",
+        "routingAGent": "2026-01-15T22:06:49.560Z",
+        "name": "John Doe",
+        "claimType": "Auto Accident",
+        "incidentDate": "2026-01-01",
+        "incidentLocation": "Pune",
+        "description": "my car got stolen",
+        "damageAmount": "5000",
+        "id": "1",
+        "summary": "Based on the provided information, there is no evidence to indicate any fraud in the claim process. The claim details are incomplete, and there are no specific elements that would suggest a fraudulent scenario.",
+        "claimId": "CLM003"
+      },
+      {
+        "extractionAgent": "2026-01-16T00:50:07.161Z",
+        "validationAgent": "2026-01-16T00:51:16.241Z",
+        "fraudScreeningAgent": "",
+        "dataEnrichmentAgent": "2026-01-16T00:50:44.361Z",
+        "routingAGent": "2026-01-15T22:06:49.560Z",
+        "claimType": "Auto Accident",
+        "incidentDate": "2026-01-08",
+        "incidentLocation": "Pune",
+        "description": "Got my scooter damaged",
+        "damageAmount": "6000",
+        "agreeTerms": true,
+        "name": "Prathmesh Gunthey",
+        "id": "1",
+        "summary": "",
+        "claimId": "CLM004"
+      }
+    ],
+    "2": [
+      {
+        "extractionAgent": "2026-01-15T21:55:43.661Z",
+        "validationAgent": "2026-01-15T21:56:14.616Z",
+        "fraudScreeningAgent": "",
+        "dataEnrichmentAgent": "2026-01-15T21:56:42.313Z",
+        "routingAGent": "2026-01-15T22:06:49.560Z",
+        "name": "John Doe",
+        "claimType": "Auto Accident",
+        "incidentDate": "2026-01-01",
+        "incidentLocation": "Pune",
+        "description": "my car got stolen",
+        "damageAmount": "5000",
+        "id": "2",
+        "claimId": "CLM001",
+        "summary": "There is a possibility of fraud due to missing personal information in the provided details. The lack of date of birth and place of birth could make it difficult to verify the claimant's identity. While the claim type and vehicle details are valid, the absence of personal data may be a red flag for potential fraud."
+      },
+      {
+        "extractionAgent": "2026-01-16T04:39:48.695Z",
+        "validationAgent": "2026-01-16T04:40:14.607Z",
+        "fraudScreeningAgent": "2026-01-16T04:41:57.021Z",
+        "dataEnrichmentAgent": "2026-01-16T04:40:51.807Z",
+        "routingAGent": "2026-01-15T22:06:49.560Z",
+        "claimType": "Property Damage",
+        "incidentDate": "2026-01-13",
+        "incidentLocation": "Pune",
+        "description": "My House is damaged.",
+        "damageAmount": "3000",
+        "agreeTerms": true,
+        "name": "John Doe",
+        "id": "2",
+        "summary": "Based on the provided information, there is no clear indication of fraud. The claimant's details (John Doe, New York, 1/1/1990) align with real-world data. While the report type and claim type are valid, the absence of a vehicle plate number may raise concerns, but fraud would require all necessary information, which is not provided here.",
+        "claimId": "CLM002"
+      }
+    ]
+  },
+  {
+    "claimId": "CLAIM-1768763990318",
+    "processedAt": "2026-01-18T19:20:39.725Z",
+    "processingStage": "ROUTING_COMPLETE",
+    "claimStatus": "APPROVE",
+    "decision": {
+      "action": "APPROVE",
+      "queue": "standard_processing/special_review/fraud_investigation/manual_review",
+      "priority": "expedited",
+      "estimatedProcessingTime": "1 day"
+    },
+    "assessment": {
+      "validationPassed": true,
+      "validationScore": 100,
+      "dataEnrichmentQuality": 0.8,
+      "fraudRiskLevel": "LOW",
+      "fraudProbability": 0.3
+    },
+    "routing": {
+      "requiresAdditionalInfo": false,
+      "additionalInfoNeeded": [],
+      "flaggedForReview": false,
+      "flagReason": null
+    },
+    "summary": "Claim is approved with validation passed, no enrichment improvements needed, and low fraud risk.",
+    "reasoning": "ClaimId is validated, no critical errors, and fraud indicators are low. The next action is PASS_VALIDATION, and no additional info is needed. No flags required as the fraud screening is handled manually.",
+    "originalClaimData": {
+      "enhanced claim data object": {
+        "claim": "The product's price is 250 USD.",
+        "source": "Knowledge Base: Competitor Price"
+      },
+      "enrichmentMetadata": {
+        "enrichedAt": "2026-01-18T19:19:12.434Z",
+        "enrichmentSource": "rag",
+        "missingFields": [],
+        "correctedFields": []
+      }
+    },
+    "enrichedData": {
+      "enhanced claim data object": {
+        "claim": "The product's price is 250 USD.",
+        "source": "Knowledge Base: Competitor Price"
+      },
+      "enrichmentMetadata": {
+        "enrichedAt": "2026-01-18T19:19:12.434Z",
+        "enrichmentSource": "rag",
+        "missingFields": [],
+        "correctedFields": []
+      }
+    }
+  }
+]

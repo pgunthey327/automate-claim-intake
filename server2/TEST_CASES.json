@@ -1,0 +1,188 @@
+{
+  "testCases": [
+    {
+      "name": "Simple Health Insurance Claim",
+      "description": "Complete health insurance claim with all fields",
+      "data": {
+        "claimNumber": "CLM-2024-001",
+        "claimantName": "John Doe",
+        "claimType": "health",
+        "claimDate": "2024-01-15",
+        "amount": 5000,
+        "description": "Medical procedure for broken arm treatment",
+        "incidentDate": "2024-01-10",
+        "email": "john.doe@example.com",
+        "phone": "+1-555-0123",
+        "address": "123 Main Street, Springfield, IL 62701",
+        "policyNumber": "POL-20240001"
+      },
+      "expectedOutcome": "APPROVED",
+      "expectedQueue": "standard_processing"
+    },
+    {
+      "name": "Auto Insurance Claim with High Amount",
+      "description": "High-value auto insurance claim needing review",
+      "data": {
+        "claimNumber": "CLM-2024-002",
+        "claimantName": "Jane Smith",
+        "claimType": "auto",
+        "claimDate": "2024-01-16",
+        "amount": 85000,
+        "description": "Total loss vehicle collision on highway",
+        "incidentDate": "2024-01-05",
+        "email": "jane.smith@example.com",
+        "phone": "+1-555-0456",
+        "address": "456 Oak Avenue, Portland, OR 97201",
+        "policyNumber": "POL-20240002"
+      },
+      "expectedOutcome": "PENDING_REVIEW",
+      "expectedQueue": "special_review"
+    },
+    {
+      "name": "Incomplete Property Claim",
+      "description": "Property claim missing critical information",
+      "data": {
+        "claimNumber": "CLM-2024-003",
+        "claimantName": "Robert Johnson",
+        "claimType": "property",
+        "claimDate": "2024-01-17",
+        "amount": 25000,
+        "description": "House damage",
+        "incidentDate": "2024-01-12"
+      },
+      "expectedOutcome": "PENDING_ADDITIONAL_INFO",
+      "expectedQueue": "manual_review"
+    },
+    {
+      "name": "Old Claim Filing (Potential Fraud)",
+      "description": "Claim filed long after incident date (fraud red flag)",
+      "data": {
+        "claimNumber": "CLM-2024-004",
+        "claimantName": "Michael Brown",
+        "claimType": "health",
+        "claimDate": "2024-01-18",
+        "amount": 3500,
+        "description": "Medical treatment",
+        "incidentDate": "2022-06-15",
+        "email": "michael.b@example.com",
+        "phone": "+1-555-0789",
+        "address": "789 Elm Street, Boston, MA 02101"
+      },
+      "expectedOutcome": "FLAG_FOR_SPECIAL_REVIEW",
+      "expectedQueue": "fraud_investigation"
+    },
+    {
+      "name": "Liability Insurance Claim",
+      "description": "Moderate liability claim",
+      "data": {
+        "claimNumber": "CLM-2024-005",
+        "claimantName": "Sarah Davis",
+        "claimType": "liability",
+        "claimDate": "2024-01-19",
+        "amount": 15000,
+        "description": "Injury claim from slip and fall on property",
+        "incidentDate": "2024-01-18",
+        "email": "sarah.davis@example.com",
+        "phone": "+1-555-1011",
+        "address": "321 Pine Road, Denver, CO 80202",
+        "policyNumber": "POL-20240005"
+      },
+      "expectedOutcome": "APPROVED",
+      "expectedQueue": "standard_processing"
+    },
+    {
+      "name": "Very Low Amount Claim",
+      "description": "Small claim that should be expedited",
+      "data": {
+        "claimNumber": "CLM-2024-006",
+        "claimantName": "Emily Wilson",
+        "claimType": "health",
+        "claimDate": "2024-01-20",
+        "amount": 250,
+        "description": "Prescription medication copay",
+        "incidentDate": "2024-01-19",
+        "email": "emily.w@example.com",
+        "phone": "+1-555-1213",
+        "address": "654 Maple Drive, Seattle, WA 98101"
+      },
+      "expectedOutcome": "APPROVED",
+      "expectedQueue": "expedited_processing"
+    },
+    {
+      "name": "Minimal Data Claim",
+      "description": "Claim with only bare minimum data",
+      "data": {
+        "claimNumber": "CLM-2024-007",
+        "claimantName": "David Taylor",
+        "claimType": "auto",
+        "claimDate": "2024-01-21",
+        "amount": 5000,
+        "description": "Car repair"
+      },
+      "expectedOutcome": "PENDING_ADDITIONAL_INFO",
+      "expectedQueue": "manual_review"
+    },
+    {
+      "name": "Complex Multi-Part Claim",
+      "description": "Claim with multiple components and high detail",
+      "data": {
+        "claimNumber": "CLM-2024-008",
+        "claimantName": "Patricia Martinez",
+        "claimType": "health",
+        "claimDate": "2024-01-22",
+        "amount": 18500,
+        "description": "Comprehensive cancer treatment including surgery, chemotherapy, and follow-up care at major medical center",
+        "incidentDate": "2023-08-15",
+        "email": "patricia.m@example.com",
+        "phone": "+1-555-1415",
+        "address": "987 Birch Lane, Phoenix, AZ 85001",
+        "policyNumber": "POL-20240008",
+        "additionalInfo": {
+          "treatmentProvider": "Phoenix Medical Center",
+          "treatmentDates": "2023-08-15 to 2023-12-20",
+          "surgeon": "Dr. James Smith",
+          "procedures": ["Tumor removal", "Chemotherapy sessions", "Reconstruction surgery"]
+        }
+      },
+      "expectedOutcome": "APPROVED",
+      "expectedQueue": "standard_processing"
+    },
+    {
+      "name": "Suspicious Amount Claim",
+      "description": "Claim with unusually high amount",
+      "data": {
+        "claimNumber": "CLM-2024-009",
+        "claimantName": "Christopher Lee",
+        "claimType": "property",
+        "claimDate": "2024-01-23",
+        "amount": 250000,
+        "description": "House total loss",
+        "incidentDate": "2024-01-20",
+        "email": "chris.lee@example.com",
+        "phone": "+1-555-1617",
+        "address": "1111 Oak Street, Miami, FL 33101"
+      },
+      "expectedOutcome": "FLAG_FOR_SPECIAL_REVIEW",
+      "expectedQueue": "fraud_investigation"
+    },
+    {
+      "name": "Recent Valid Claim",
+      "description": "Recently filed claim within normal parameters",
+      "data": {
+        "claimNumber": "CLM-2024-010",
+        "claimantName": "Jennifer White",
+        "claimType": "health",
+        "claimDate": "2024-01-24",
+        "amount": 8500,
+        "description": "Emergency room visit and overnight hospitalization",
+        "incidentDate": "2024-01-23",
+        "email": "jen.white@example.com",
+        "phone": "+1-555-1819",
+        "address": "2222 Elm Court, Atlanta, GA 30303"
+      },
+      "expectedOutcome": "APPROVED",
+      "expectedQueue": "standard_processing"
+    }
+  ],
+  "instructions": "Use these test cases to validate the claim processing system. Each test case includes expected outcomes for verification."
+}

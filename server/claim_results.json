@@ -77,6 +77,22 @@
       "id": "2",
       "claimId": "CLM001",
       "summary": "There is a possibility of fraud due to missing personal information in the provided details. The lack of date of birth and place of birth could make it difficult to verify the claimant's identity. While the claim type and vehicle details are valid, the absence of personal data may be a red flag for potential fraud."
+    },
+    {
+      "extract_claim_fields": "2026-01-16T04:39:48.695Z",
+      "validate_claim": "2026-01-16T04:40:14.607Z",
+      "fraud_check": "2026-01-16T04:41:57.021Z",
+      "summarize_claim": "2026-01-16T04:40:51.807Z",
+      "claimType": "Property Damage",
+      "incidentDate": "2026-01-13",
+      "incidentLocation": "Pune",
+      "description": "My House is damaged.",
+      "damageAmount": "3000",
+      "agreeTerms": true,
+      "name": "John Doe",
+      "id": "2",
+      "summary": "Based on the provided information, there is no clear indication of fraud. The claimant's details (John Doe, New York, 1/1/1990) align with real-world data. While the report type and claim type are valid, the absence of a vehicle plate number may raise concerns, but fraud would require all necessary information, which is not provided here.",
+      "claimId": "CLM002"
     }
   ]
 }
