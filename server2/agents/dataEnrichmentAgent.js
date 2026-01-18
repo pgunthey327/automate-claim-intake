@@ -9,6 +9,8 @@ import mcpServer from "../mcp/mcpServer.js";
 import rag from "./rag/rag.js";
 
 export const dataEnrichmentAgent = async (claimData, validationResults) => {
+  console.log("initialise RAG");
+  await rag.initializeRAG();
   console.log("\n=== DATA ENRICHMENT AGENT ===");
   console.log("Input claim data:", claimData);
   console.log("Validation results:", validationResults);
@@ -57,12 +59,12 @@ Provide JSON response with:
 
       for (const query of identificationResult.ragQueries) {
         try {
-          const ragResult = await rag(
-            {
+          const ragResult = await rag.queryRAG(
+            JSON.stringify({
               query,
               documentPath: "./documents",
               topK: 3
-            }
+            })
           );
           ragResults.push({
             query,

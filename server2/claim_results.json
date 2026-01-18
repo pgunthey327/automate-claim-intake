@@ -66,11 +66,11 @@
   ],
   "undefined": [
     {
-      "extractionAgent": "2026-01-18T23:39:03.980Z",
-      "validationAgent": "2026-01-18T23:39:55.734Z",
-      "fraudScreeningAgent": "2026-01-18T23:43:15.921Z",
-      "dataEnrichmentAgent": "2026-01-18T23:40:33.756Z",
-      "routingAGent": "2026-01-18T23:46:27.038Z",
+      "extractionAgent": "2026-01-18T23:19:14.323Z",
+      "validationAgent": "2026-01-18T23:20:29.594Z",
+      "fraudScreeningAgent": "2026-01-18T23:21:59.821Z",
+      "dataEnrichmentAgent": "2026-01-18T23:20:53.121Z",
+      "routingAGent": "2026-01-18T23:23:36.790Z",
       "claimType": "Auto Accident",
       "incidentDate": "2026-01-01",
       "incidentLocation": "Pune",
@@ -80,7 +80,7 @@
       "name": "John Doe",
       "id": "2",
       "claimId": "CLM001",
-      "summary": "The claim has been validated and flagged for investigation due to high fraud risk. | Reasoning: The claim was validated with a high score, but fraud indicators indicate a need for investigation. The fraud risk level is medium, and the recommendation is to APPROVE, with an investigation in progress. | Validation: PASSED (Score: 100/100) | Fraud Risk: HIGH (Probability: 85.0%) | Fraud Indicators: large deposit, unusual payment frequency | Fields Added During Enrichment: date | Data Quality Improvement: 0.1 | Final Decision: APPROVE | Assigned Queue: standard_processing/special_review/fraud_investigation/manual_review | Processing Priority: expedited | Estimated Processing Time: 5 | Additional Information Required: fraudIndicators, transactionAmount, paymentFrequency"
+      "summary": "Claim validated with low fraud risk but some indicators requiring investigation | Reasoning: Validation passed with high score. Fraud screening shows low risk but with indicators requiring investigation. No critical errors found. No manual review needed. | Validation: PASSED (Score: 100/100) | Fraud Risk: LOW (Probability: 70.0%) | Fraud Indicators: high transaction amount, unusual IP address | Data Quality Improvement: 0% | Final Decision: APPROVE | Assigned Queue: standard_processing/special_review/fraud_investigation/manual_review | Processing Priority: expedited | Estimated Processing Time: 1 | Additional Information Required: claimId, validationScore, fraudRiskLevel, fraudProbability, fraudIndicators, recommendedAction, investigationPriority"
     }
   ]
 }

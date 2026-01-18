@@ -179,7 +179,7 @@ Provide JSON response with:
       incidentDate: originalClaimData.incidentDate || claimData.incidentDate || "",
       incidentLocation: originalClaimData.incidentLocation || claimData.incidentLocation || "",
       description: originalClaimData.description || claimData.description || "",
-      damageAmount: originalClaimData.damageAmount || originalClaimData.amount || claimData.amount || "",
+      claimAmount: originalClaimData.claimAmount || originalClaimData.amount || claimData.amount || "",
       agreeTerms: originalClaimData.agreeTerms || false,
       name: originalClaimData.name || originalClaimData.claimantName || claimData.claimantName || "",
       id: originalClaimData.id || "",
@@ -224,17 +224,17 @@ Provide JSON response with:
             // Generate claim ID based on array length
             const claimNumber = allResults[userId].length + 1;
             const claimId = `CLM${String(claimNumber).padStart(3, '0')}`;
-            newResult.claimId = claimId;
+            claimResult.claimId = claimId;
             // Append new result to array
-            allResults[userId].push(newResult);
+            allResults[userId].push(claimResult);
         } else {
             // Create new entry with array containing the result
             const claimId = "CLM001";
-            newResult.claimId = claimId;
-            allResults[userId] = [newResult];
+            claimResult.claimId = claimId;
+            allResults[userId] = [claimResult];
         }
         
-        fs.writeFileSync("claim_results.json", JSON.stringify(allResults, null, 2));
+        fs.writeFileSync(resultsFile, JSON.stringify(allResults, null, 2));
         console.log("Results saved to claim_results.json");
 
       routingContext.steps.push({

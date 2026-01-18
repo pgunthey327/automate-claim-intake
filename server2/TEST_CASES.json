@@ -47,7 +47,7 @@
         "claimType": "property",
         "claimDate": "2024-01-17",
         "amount": 25000,
-        "description": "House damage",
+        "description": "House claim",
         "incidentDate": "2024-01-12"
       },
       "expectedOutcome": "PENDING_ADDITIONAL_INFO",

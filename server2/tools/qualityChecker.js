@@ -50,12 +50,12 @@ const qualityChecker = async (params) => {
   }
 
   // Check data integrity
-  if (claimData.damageAmount !== undefined) {
-    if (typeof claimData.damageAmount === "number" && claimData.damageAmount > 0) {
+  if (claimData.claimAmount !== undefined) {
+    if (typeof claimData.claimAmount === "string" && claimData.claimAmount > 0) {
       integrityScore += 50;
     } else {
-      issues.push("Damage amount must be a positive number");
-      recommendations.push("Correct the damage amount value");
+      issues.push("claim amount must be a positive number");
+      recommendations.push("Correct the claim amount value");
     }
   }
 

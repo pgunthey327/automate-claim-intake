@@ -7,6 +7,16 @@
 import { generateContent } from "../helper/helper.js";
 import mcpServer from "../mcp/mcpServer.js";
 
+const claim_intake_schema = { "text": "string", 
+    "claimFormData": { 
+        "claimType": "string",
+         "incidentDate": "string",
+          "incidentLocation": "string",
+           "description": "string",
+            "claimAmount": "string",
+            "name": "string",
+             "id": "string" } }
+
 export const extractionAgent = async (rawClaimData) => {
   console.log("\n=== EXTRACTION AGENT ===");
   console.log("Input data:", rawClaimData);
@@ -21,6 +31,8 @@ export const extractionAgent = async (rawClaimData) => {
   try {
     // Step 1: LLM decides the extraction strategy
     const strategySytemPrompt = `You are an expert claim extraction agent. Analyze the raw claim data and determine the best extraction strategy.
+rawClaimData: ${JSON.stringify(rawClaimData)}
+
 You have access to two tools:
 1. documentParser - Parses documents and extracts structured data
 2. dataConverter - Converts unstructured data to JSON schema
@@ -31,7 +43,7 @@ Based on the input data format, decide which tool(s) to use. Format your respons
   "toolsToUse": ["tool1", "tool2"],
   "parameters": {
     "documentParser": { "document": {...}, "documentType": "claim_form" },
-    "dataConverter": { "data": {...}, "targetSchema": "claim_intake_schema" }
+    "dataConverter": { "data": {...}, "targetSchema": ${JSON.stringify(claim_intake_schema)} }
   },
   "reasoning": "explanation of why these tools were chosen"
 }`;
@@ -77,7 +89,7 @@ Based on the input data format, decide which tool(s) to use. Format your respons
           "dataConverter",
           strategyDecision.parameters.dataConverter || {
             data: extractedData || rawClaimData,
-            targetSchema: "claim_intake_schema"
+            targetSchema: claim_intake_schema
           }
         );
         extractionContext.steps.push({
@@ -131,7 +143,7 @@ Provide JSON response with:
     };
   }
 
-  console.log("=== EXTRACTION AGENT COMPLETE ===\n");
+  console.log("=== EXTRACTION AGENT COMPLETE ===\n", extractionContext);
   return extractionContext;
 };
 

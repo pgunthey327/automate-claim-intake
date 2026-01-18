@@ -30,7 +30,7 @@
   - incidentDate ✓
   - incidentLocation ✓
   - description ✓
-  - damageAmount ✓
+  - claimAmount ✓
   - agreeTerms ✓
   - name ✓
   - id ✓
@@ -70,11 +70,11 @@
   "fraudScreeningAgent": "2026-01-16T04:41:57.021Z",
   "dataEnrichmentAgent": "2026-01-16T04:40:51.807Z",
   "routingAGent": "2026-01-16T04:41:57.021Z",
-  "claimType": "Property Damage",
+  "claimType": "Property claim",
   "incidentDate": "2026-01-13",
   "incidentLocation": "Pune",
-  "description": "My House is damaged.",
-  "damageAmount": "3000",
+  "description": "My House is claimd.",
+  "claimAmount": "3000",
   "agreeTerms": true,
   "name": "John Doe",
   "id": "2",
@@ -98,11 +98,11 @@ orchestrationLog.agentTimestamps = {
 }
 
 rawClaimData (originalClaimData) = {
-  claimType: "Property Damage",
+  claimType: "Property claim",
   incidentDate: "2026-01-13",
   incidentLocation: "Pune",
-  description: "My House is damaged.",
-  damageAmount: "3000",
+  description: "My House is claimd.",
+  claimAmount: "3000",
   agreeTerms: true,
   name: "John Doe",
   id: "2",
@@ -125,7 +125,7 @@ claimResult = {
   incidentDate: originalClaimData.incidentDate,
   incidentLocation: originalClaimData.incidentLocation,
   description: originalClaimData.description,
-  damageAmount: originalClaimData.damageAmount,
+  claimAmount: originalClaimData.claimAmount,
   agreeTerms: originalClaimData.agreeTerms,
   name: originalClaimData.name,
   id: originalClaimData.id,
@@ -174,11 +174,11 @@ curl -X POST http://localhost:3001/api/process-claim \
   -H "Content-Type: application/json" \
   -d '{
     "claimFormData": {
-      "claimType": "Property Damage",
+      "claimType": "Property claim",
       "incidentDate": "2026-01-13",
       "incidentLocation": "Pune",
-      "description": "House damaged",
-      "damageAmount": "5000",
+      "description": "House claimd",
+      "claimAmount": "5000",
       "name": "John Doe",
       "id": "2",
       "agreeTerms": true
@@ -199,11 +199,11 @@ curl http://localhost:3001/api/claim-results | jq
   "fraudScreeningAgent": "2026-01-16T04:41:57.021Z",
   "dataEnrichmentAgent": "2026-01-16T04:40:51.807Z",
   "routingAGent": "2026-01-16T04:42:00.000Z",
-  "claimType": "Property Damage",
+  "claimType": "Property claim",
   "incidentDate": "2026-01-13",
   "incidentLocation": "Pune",
-  "description": "House damaged",
-  "damageAmount": "5000",
+  "description": "House claimd",
+  "claimAmount": "5000",
   "name": "John Doe",
   "id": "2",
   "agreeTerms": true,

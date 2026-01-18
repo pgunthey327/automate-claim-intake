@@ -7,6 +7,16 @@
 import { generateContent } from "../helper/helper.js";
 import mcpServer from "../mcp/mcpServer.js";
 
+const claim_intake_schema = { "text": "string", 
+    "claimFormData": { 
+        "claimType": "string",
+         "incidentDate": "string",
+          "incidentLocation": "string",
+           "description": "string",
+            "claimAmount": "string",
+            "name": "string",
+             "id": "string" } }
+
 export const validationAgent = async (extractedData) => {
   console.log("\n=== VALIDATION AGENT ===");
   console.log("Input data:", extractedData);
@@ -45,7 +55,7 @@ export const validationAgent = async (extractedData) => {
         "schemaValidator",
         {
           data: extractedData,
-          schema: "claim_intake_schema"
+          schema: claim_intake_schema
         }
       );
       validationContext.steps.push({

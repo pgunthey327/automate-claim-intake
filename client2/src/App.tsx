@@ -38,7 +38,7 @@ interface Claim {
   incidentDate: string
   incidentLocation: string
   description: string
-  damageAmount: string
+  claimAmount: string
   summary: string
   extractionAgent: string
   validationAgent: string
@@ -106,7 +106,7 @@ const HARDCODED_CLAIMS: Record<string, Claim[]> = {
       incidentDate: '2026-01-10',
       incidentLocation: 'New York, NY',
       description: 'Car collision on highway',
-      damageAmount: '5000',
+      claimAmount: '5000',
       summary: 'Can be processed. Claim has clear incident details and consistent timeline with verified police report on file.',
       extractionAgent: '2026-01-15T22:03:56.819Z',
       validationAgent: '2026-01-15T22:04:26.419Z',
@@ -118,12 +118,12 @@ const HARDCODED_CLAIMS: Record<string, Claim[]> = {
       claimId: 'CLM002',
       userId: '1',
       name: 'Prathmesh Gunthey',
-      claimType: 'Property Damage',
+      claimType: 'Property claim',
       incidentDate: '2026-01-03',
       incidentLocation: 'Boston, MA',
-      description: 'Storm damage to roof',
-      damageAmount: '8000',
-      summary: 'Can be processed. Weather records confirm storm event on claim date and damage assessment aligns with repair estimates.',
+      description: 'Storm claim to roof',
+      claimAmount: '8000',
+      summary: 'Can be processed. Weather records confirm storm event on claim date and claim assessment aligns with repair estimates.',
       extractionAgent: '2026-01-04T11:20:00Z',
       validationAgent: '2026-01-04T11:28:15Z',
       fraudScreeningAgent: '2026-01-04T11:42:00Z',
@@ -136,12 +136,12 @@ const HARDCODED_CLAIMS: Record<string, Claim[]> = {
       claimId: 'CLM001',
       userId: '2',
       name: 'John Doe',
-      claimType: 'Property Damage',
+      claimType: 'Property claim',
       incidentDate: '2026-01-08',
       incidentLocation: 'Los Angeles, CA',
-      description: 'Water damage to home',
-      damageAmount: '12000',
-      summary: 'Cannot be processed. Suspicious discrepancies found between claim amount and damage assessment; multiple inconsistencies in timeline.',
+      description: 'Water claim to home',
+      claimAmount: '12000',
+      summary: 'Cannot be processed. Suspicious discrepancies found between claim amount and claim assessment; multiple inconsistencies in timeline.',
       extractionAgent: '2026-01-09T14:15:00Z',
       validationAgent: '2026-01-09T14:22:45Z',
       fraudScreeningAgent: '2026-01-09T14:35:00Z',
@@ -158,7 +158,7 @@ const HARDCODED_CLAIMS: Record<string, Claim[]> = {
       incidentDate: '2026-01-05',
       incidentLocation: 'Chicago, IL',
       description: 'Emergency room visit',
-      damageAmount: '3500',
+      claimAmount: '3500',
       summary: 'Can be processed. Emergency room visit verified with hospital records and valid insurance coverage at time of incident.',
       extractionAgent: '2026-01-06T09:00:00Z',
       validationAgent: '2026-01-06T09:08:20Z',
@@ -239,7 +239,7 @@ function App() {
     incidentDate: '',
     incidentLocation: '',
     description: '',
-    damageAmount: '',
+    claimAmount: '',
     agreeTerms: false,
     name: '',
     id: ''
@@ -253,7 +253,7 @@ function App() {
 
   const claimTypes = [
     'Auto Accident',
-    'Property Damage',
+    'Property claim',
     'Health Claim',
     'Life Insurance',
     'Disability Claim',
@@ -358,7 +358,7 @@ function App() {
       incidentDate: '',
       incidentLocation: '',
       description: '',
-      damageAmount: '',
+      claimAmount: '',
       agreeTerms: false,
       name:'',
       id:''
@@ -367,7 +367,7 @@ function App() {
   }
 
   const convertClaimDataToSentence = (data: typeof claimFormData, user: any) => {
-    return `Name is ${user.firstName} ${user.lastName}, claim type is ${data.claimType}, incident date is ${data.incidentDate}, incident location is ${data.incidentLocation}, damage amount is $${data.damageAmount}, description is ${data.description}.`
+    return `Name is ${user.firstName} ${user.lastName}, claim type is ${data.claimType}, incident date is ${data.incidentDate}, incident location is ${data.incidentLocation}, claim amount is $${data.claimAmount}, description is ${data.description}.`
   }
 
   const handleSubmitClaim = () => {
@@ -389,8 +389,8 @@ function App() {
       setClaimFormError('Please provide a description of the incident')
       return
     }
-    if (!claimFormData.damageAmount) {
-      setClaimFormError('Please enter the damage amount')
+    if (!claimFormData.claimAmount) {
+      setClaimFormError('Please enter the claim amount')
       return
     }
     if (!claimFormData.agreeTerms) {
@@ -418,7 +418,7 @@ function App() {
               incidentDate: '',
               incidentLocation: '',
               description: '',
-              damageAmount: '',
+              claimAmount: '',
               agreeTerms: false,
               name:'',
               id: ''
@@ -587,7 +587,7 @@ function App() {
                             </div>
                             <div className="claim-info">
                               <p><strong>Type:</strong> {claim.claimType}</p>
-                              <p><strong>Amount:</strong> ${parseFloat(claim.damageAmount).toLocaleString()}</p>
+                              <p><strong>Amount:</strong> ${parseFloat(claim.claimAmount).toLocaleString()}</p>
                               <p><strong>Date:</strong> {new Date(claim.incidentDate).toLocaleDateString()}</p>
                             </div>
                           </div>
@@ -636,8 +636,8 @@ function App() {
                       <span className="value">{selectedClaimForReview.incidentLocation}</span>
                     </div>
                     <div className="detail-row">
-                      <span className="label">Damage Amount:</span>
-                      <span className="value amount">${parseFloat(selectedClaimForReview.damageAmount).toLocaleString()}</span>
+                      <span className="label">claim Amount:</span>
+                      <span className="value amount">${parseFloat(selectedClaimForReview.claimAmount).toLocaleString()}</span>
                     </div>
                     <div className="detail-row full-width">
                       <span className="label">Description:</span>
@@ -1036,14 +1036,14 @@ function App() {
                         />
                       </div>
                       <div className="form-group">
-                        <label htmlFor="damage-amount">Damage Amount ($) *</label>
+                        <label htmlFor="claim-amount">claim Amount ($) *</label>
                         <input
-                          id="damage-amount"
+                          id="claim-amount"
                           type="number"
                           className="form-input"
                           placeholder="0.00"
-                          value={claimFormData.damageAmount}
-                          onChange={(e) => handleClaimInputChange('damageAmount', e.target.value)}
+                          value={claimFormData.claimAmount}
+                          onChange={(e) => handleClaimInputChange('claimAmount', e.target.value)}
                         />
                       </div>
                     </div>
