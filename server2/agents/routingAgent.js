@@ -197,12 +197,9 @@ Provide JSON response with:
     // Step 5: Save claim result to file
     console.log("Step 4: Saving claim result...");
     try {
-      const outputDir = "./output";
-      if (!fs.existsSync(outputDir)) {
-        fs.mkdirSync(outputDir, { recursive: true });
-      }
 
-      const resultsFile = path.join(outputDir, "claim_results.json");
+      const resultsFile = path.join(process.cwd(), "output", "claim_results.json");
+      console.log("Results file path:", resultsFile);
       let allResults = {};
 
       // Load existing results if file exists
@@ -215,7 +212,7 @@ Provide JSON response with:
         }
       }
         // Check if user already has results
-        const userId = claimData.id;
+        const userId = originalClaimData.id;
         if (allResults[userId]) {
             // If it's not an array, convert to array
             if (!Array.isArray(allResults[userId])) {
