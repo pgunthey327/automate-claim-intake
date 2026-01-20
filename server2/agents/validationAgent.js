@@ -95,7 +95,6 @@ Provide JSON response with:
 
     // Step 4: Compile validation summary
     const validationSummary = {
-      claimId: extractedData.claimId || extractedData.claim?.claimId || "UNKNOWN",
       validationPassed: intelligentValidation.isValid || false,
       validationScore: intelligentValidation.validationScore || 0,
       criticalErrors: intelligentValidation.validationErrors || [],

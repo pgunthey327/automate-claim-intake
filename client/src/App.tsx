@@ -367,7 +367,7 @@ function App() {
   }
 
   const convertClaimDataToSentence = (data: typeof claimFormData, user: any) => {
-    return `Name is ${user.firstName} ${user.lastName}, claim type is ${data.claimType}, incident date is ${data.incidentDate}, incident location is ${data.incidentLocation}, damage amount is $${data.damageAmount}, description is ${data.description}.`
+    return `Name is ${user.firstName} ${user.lastName}, claim type is ${data.claimType}, incident date is ${data.incidentDate},claim date is ${data.incidentDate}, incident location is ${data.incidentLocation}, claim amount is $${data.damageAmount}, description is ${data.description}.`
   }
 
   const handleSubmitClaim = () => {
